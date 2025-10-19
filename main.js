@@ -15,7 +15,7 @@ let sat = document.querySelector('.sat');
 let lines;
 let values;
 let p1, p2;
-let t = ['初中', '高中', '四级', '六级', '考研', '托福', '自定义', 'SAT'];
+let t = ['初中', '高中', '四级', '六级', '考研', '托福', 'custom', 'SAT'];
 let type = (x) => {
     if (!x)//第一次打开网站
         x = '初中';
@@ -76,7 +76,7 @@ let n = function () {
         key = 'number6'
         num = localStorage.getItem(key) ? Number(localStorage.getItem(key)) : 0;
     }
-    if (localStorage.getItem("类型") === "自定义") {
+    if (localStorage.getItem("类型") === "custom") {
         key = 'number7'
         num = localStorage.getItem(key) ? Number(localStorage.getItem(key)) : 0;
     }
@@ -113,23 +113,24 @@ right.addEventListener('click', () => {
 let not = localStorage.getItem('not') ? JSON.parse(localStorage.getItem('not')) : [];
 let makenot = document.querySelector('.makenot');//监听<不会>按钮的点击事件
 makenot.addEventListener('click', () => {
+    // 检查当前单词是否有效
+    if (!values[num] || !values[num][0] || !values[num][1]) {
+        alert('当前单词未定义，无法加入不会列表！');
+        return;
+    }
+    // 去重
     const length = not.length;
-    let flag = false;//为了去重，存过的不在存
+    let flag = false;
     for (let i = 0; i < length; i++) {
         if (not[i].toString() === values[num].toString()) {
             flag = true;
             break;
         }
     }
-    if (flag) {
-        return;
-    }
+    if (flag) return;
 
-    not.push(values[num]);
-    //setItem存在localStorage里，用stringify把数组转成json
+    not.push([values[num][0], values[num][1]]);
     localStorage.setItem('not', JSON.stringify(not));
-
-    //每次not变化，都重新清空渲染
     clear();
     render();
 })
@@ -140,7 +141,7 @@ const notlist = document.querySelector('.notlist');
 //清空
 const clear = function () {
     Array.from(notlist.children).forEach(child => {
-        if (!child.classList.contains('savenot')) {
+        if (!child.classList.contains('savenot') && !child.classList.contains('clear')) {
             notlist.removeChild(child);
         }
     });
@@ -179,14 +180,25 @@ notlist.addEventListener('click', (event) => {
 //保存不会的单词到文件
 document.querySelector('.savenot').addEventListener('click', () => {
     const not = localStorage.getItem('not') ? JSON.parse(localStorage.getItem('not')) : [];
-    // 每行：英文\t中文
-    const txt = not.map(item => item.join('\t')).join('\n');
+    // 过滤掉未定义或格式不对的项
+    const txt = not
+        .filter(item => Array.isArray(item) && item[0] && item[1])
+        .map(item => item.join('\t'))
+        .join('\n');
     const blob = new Blob([txt], { type: 'text/plain' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    a.download = '自定义.txt';
+    a.download = 'custom.txt';
     a.click();
 })
+
+document.querySelector('.clear').addEventListener('click', () => {
+    not = [];
+    localStorage.setItem('not', JSON.stringify(not));
+    clear();
+    render();
+});
+
 
 //浏览器第一次打开 
 type(localStorage.getItem('类型'))();

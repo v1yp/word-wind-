@@ -114,7 +114,7 @@ a:hover {
 }
 
 .notlist{
-    position: relative; /* 新增，保证绝对定位基于notlist */
+    position: absolute; 
     width: 250px;
     height: 600px;
     top: -250px;

@@ -114,15 +114,23 @@ a:hover {
 }
 
 .notlist{
-    position: fixed;
+    position: relative; /* 新增，保证绝对定位基于notlist */
     width: 250px;
     height: 600px;
-    top: -50px;
+    top: -250px;
     left: 670px;
     border-radius: 10px; 
     padding: 10px;
     background-color: rgba(255, 228, 196, 0.7);
     overflow-y: scroll;/* 滚轮 */
+}
+.savenot{
+    width: 60px;
+    height: 40px;
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .now{
@@ -156,8 +164,8 @@ a:hover {
     border-radius: 10px;
     cursor: pointer;
     box-sizing: border-box;
-    padding-left: 23px;
-    padding-top: 12px;
+    text-align: center;
+    line-height: 50px;
     color: snow;
 }
 
@@ -188,20 +196,25 @@ a:hover {
 .postgraduate{
     position: fixed;
     top: 500px;
-    left: -425px;
+    left: -480px;
     background-color: #c69fff;
 }
 .toefl{
     position: fixed;
     top: 500px;
-    left: -315px;
+    left: -370px;
     background-color: #ff8e8c;
 }
 .sat {
     position: fixed;
     top: 500px;
-    left: -205px;
+    left: -150px;
     background-color: #86efac;
-
-    padding-left: 25px;
+}
+.custom{
+    position: fixed;
+    top: 500px;
+    left: -260px;
+    background-color: #0091ff;
+    width: 90px;
 }

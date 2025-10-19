@@ -9,19 +9,20 @@ let cet4 = document.querySelector('.cet4');
 let cet6 = document.querySelector('.cet6');
 let postgraduate = document.querySelector('.postgraduate');
 let toefl = document.querySelector('.toefl');
+let custom = document.querySelector('.custom');
 let sat = document.querySelector('.sat');
 
 let lines;
 let values;
 let p1, p2;
-let t = ['初中', '高中', '四级', '六级', '考研', '托福', 'SAT'];
+let t = ['初中', '高中', '四级', '六级', '考研', '托福', '自定义', 'SAT'];
 let type = (x) => {
     if (!x)//第一次打开网站
         x = '初中';
     return () => {
         localStorage.setItem("类型", x);
         n();
-        xhr.open('GET', `/${x}.txt`, false);
+        xhr.open('GET', `./${x}.txt`, false);
         xhr.send();
         //按照回车和tab分开
         lines = xhr.responseText.split('\n');
@@ -35,14 +36,15 @@ let type = (x) => {
         nownum.innerHTML = `&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp当前单词为${localStorage.getItem("类型")}的第${num + 1}个`
     }
 }
-     
-junior.addEventListener('click',type(t[0]))
+
+junior.addEventListener('click', type(t[0]))
 senior.addEventListener('click', type(t[1]))
 cet4.addEventListener('click', type(t[2]))
 cet6.addEventListener('click', type(t[3]))
 postgraduate.addEventListener('click', type(t[4]))
 toefl.addEventListener('click', type(t[5]))
-sat.addEventListener('click', type(t[6]))
+custom.addEventListener('click', type(t[6]))
+sat.addEventListener('click', type(t[7]))
 
 //本地存，当前第几个
 let nownum = document.querySelector('.nownum');
@@ -52,69 +54,72 @@ let num = 0;
 let n = function () {
     if (localStorage.getItem("类型") === "初中") {
         key = 'number1'
-        num = localStorage.getItem(key) ? Number(localStorage.getItem(key)) : 0; 
+        num = localStorage.getItem(key) ? Number(localStorage.getItem(key)) : 0;
     }
     if (localStorage.getItem("类型") === "高中") {
         key = 'number2'
-        num = localStorage.getItem(key) ? Number(localStorage.getItem(key)) : 0; 
-    } 
-    if (localStorage.getItem("类型") === "四级"){
+        num = localStorage.getItem(key) ? Number(localStorage.getItem(key)) : 0;
+    }
+    if (localStorage.getItem("类型") === "四级") {
         key = 'number3'
-        num = localStorage.getItem(key) ? Number(localStorage.getItem(key)) : 0; 
+        num = localStorage.getItem(key) ? Number(localStorage.getItem(key)) : 0;
     }
-    if (localStorage.getItem("类型") === "六级"){
+    if (localStorage.getItem("类型") === "六级") {
         key = 'number4'
-        num = localStorage.getItem(key) ? Number(localStorage.getItem(key)) : 0; 
+        num = localStorage.getItem(key) ? Number(localStorage.getItem(key)) : 0;
     }
-    if (localStorage.getItem("类型") === "考研"){
+    if (localStorage.getItem("类型") === "考研") {
         key = 'number5'
-        num = localStorage.getItem(key) ? Number(localStorage.getItem(key)) : 0; 
+        num = localStorage.getItem(key) ? Number(localStorage.getItem(key)) : 0;
     }
-    if (localStorage.getItem("类型") === "托福"){
+    if (localStorage.getItem("类型") === "托福") {
         key = 'number6'
-        num = localStorage.getItem(key) ? Number(localStorage.getItem(key)) : 0; 
+        num = localStorage.getItem(key) ? Number(localStorage.getItem(key)) : 0;
     }
-    if (localStorage.getItem("类型") === "SAT"){
+    if (localStorage.getItem("类型") === "自定义") {
         key = 'number7'
-        num = localStorage.getItem(key) ? Number(localStorage.getItem(key)) : 0; 
+        num = localStorage.getItem(key) ? Number(localStorage.getItem(key)) : 0;
+    }
+    if (localStorage.getItem("类型") === "SAT") {
+        key = 'number8'
+        num = localStorage.getItem(key) ? Number(localStorage.getItem(key)) : 0;
     }
 }
 
 //当前第几个显示在左下
-nownum.innerHTML = `&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp当前单词为${localStorage.getItem("类型")}的第${num+1}个`
+nownum.innerHTML = `&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp当前单词为${localStorage.getItem("类型")}的第${num + 1}个`
 
 //左右按钮，上一个下一个
 let left = document.querySelector('.left');
 left.addEventListener('click', () => {
-    if(num!=0)//第一个没有上一个
+    if (num != 0)//第一个没有上一个
         num--;
     localStorage.setItem(key, num);//存当前是第几个
     p1.innerHTML = values[num][0];
     p2.innerHTML = values[num][1];
-    nownum.innerHTML = `&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp当前单词为${localStorage.getItem("类型")}的第${num+1}个`
+    nownum.innerHTML = `&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp当前单词为${localStorage.getItem("类型")}的第${num + 1}个`
 })
 
 let right = document.querySelector('.right');
-right.addEventListener('click', () => {   
+right.addEventListener('click', () => {
     num++;
     localStorage.setItem(key, num)
     p1.innerHTML = values[num][0];
     p2.innerHTML = values[num][1];
-    nownum.innerHTML = `&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp当前单词为${localStorage.getItem("类型")}的第${num+1}个`
+    nownum.innerHTML = `&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp当前单词为${localStorage.getItem("类型")}的第${num + 1}个`
 })
- 
+
 //getItem判断not以前是否存过，存过的话json先转成数组，没存过的话先初始化成数组
 let not = localStorage.getItem('not') ? JSON.parse(localStorage.getItem('not')) : [];
 let makenot = document.querySelector('.makenot');//监听<不会>按钮的点击事件
 makenot.addEventListener('click', () => {
     const length = not.length;
     let flag = false;//为了去重，存过的不在存
-    for (let i = 0; i < length; i++){
-        if (not[i].toString() === values[num].toString())
-        {
+    for (let i = 0; i < length; i++) {
+        if (not[i].toString() === values[num].toString()) {
             flag = true;
             break;
-        }    
+        }
     }
     if (flag) {
         return;
@@ -123,7 +128,7 @@ makenot.addEventListener('click', () => {
     not.push(values[num]);
     //setItem存在localStorage里，用stringify把数组转成json
     localStorage.setItem('not', JSON.stringify(not));
-    
+
     //每次not变化，都重新清空渲染
     clear();
     render();
@@ -134,22 +139,24 @@ const notlist = document.querySelector('.notlist');
 
 //清空
 const clear = function () {
-    while (notlist.firstChild) {
-        notlist.removeChild(notlist.firstChild);//删除
-    }
+    Array.from(notlist.children).forEach(child => {
+        if (!child.classList.contains('savenot')) {
+            notlist.removeChild(child);
+        }
+    });
 }
 //渲染
 const render = function () {
-    for (let i = 0; i < not.length; i++){
-    const divEl = document.createElement("div");//创建元素
-    divEl.innerHTML = not[i];//元素内容为单词
-    notlist.appendChild(divEl);//指定这个元素的父亲为notlist
-    divEl.style.marginBottom = '9px';//每个词中间的空隙
+    for (let i = 0; i < not.length; i++) {
+        const divEl = document.createElement("div");//创建元素
+        divEl.innerHTML = not[i];//元素内容为单词
+        notlist.appendChild(divEl);//指定这个元素的父亲为notlist
+        divEl.style.marginBottom = '9px';//每个词中间的空隙
 
-    const btn = document.createElement("button");
-    btn.innerHTML = 'X';
-    divEl.appendChild(btn);
-    btn.classList.add('x');//给这个button添加类
+        const btn = document.createElement("button");
+        btn.innerHTML = 'X';
+        divEl.appendChild(btn);
+        btn.classList.add('x');//给这个button添加类
     }
 }
 
@@ -169,5 +176,17 @@ notlist.addEventListener('click', (event) => {
     }
 })
 
+//保存不会的单词到文件
+document.querySelector('.savenot').addEventListener('click', () => {
+    const not = localStorage.getItem('not') ? JSON.parse(localStorage.getItem('not')) : [];
+    // 每行：英文\t中文
+    const txt = not.map(item => item.join('\t')).join('\n');
+    const blob = new Blob([txt], { type: 'text/plain' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = '自定义.txt';
+    a.click();
+})
+
 //浏览器第一次打开 
-type(localStorage.getItem('类型'))(); 
+type(localStorage.getItem('类型'))();

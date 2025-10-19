@@ -1,0 +1,9 @@
+nineteen	num. 十九
+marriage	n. 结婚；婚姻生活；密切结合，合并
+intention	n. 打算，意图
+authoritative	adj. 权威的
+smooth	adj. 光滑的
+<meta charset="utf-8">
+equivalence	n. 等值，相等
+alternative	n. 代替品
+primary	adj. 主要的，基本的

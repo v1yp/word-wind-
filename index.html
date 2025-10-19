@@ -5,7 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>单词之风</title>
-    <link rel="stylesheet" href="/index.css">
+    <link rel="stylesheet" href="./index.css">
+    <script src="./index.js" defer></script>
 </head>
 <body>    
     <div class="hello">
@@ -16,7 +17,7 @@
             <p id="map1"></p>
         </h1>
         <div class="author">
-                <a class="newpage" href="/my.html" target="_blank">
+                <a class="newpage" href="./my.html" target="_blank">
                     &nbsp
                     关于这个项目点这里
                 </a>
@@ -26,7 +27,9 @@
             <button class="right inbutton">下一个</button>
             <button class="makenot">不会</button>
         </div>    
-        <div class="notlist"></div>
+        <div class="notlist">
+            <button class="savenot">保存</button>
+        </div>
         <div class="now">
             <h3 class="nownum"></h3>
         </div>
@@ -38,7 +41,10 @@
             <div class="change postgraduate">考研</div>
             <div class="change toefl">托福</div>
             <div class="change sat">SAT</div>
+            <div class="change custom">自定义</div>
         </div>
+        <!-- 在 index.html 的合适位置添加 -->
+        <input type="file" id="dictfile" accept=".txt" style="display:none;">
     </div>
     <!-- 下面为右上角github，地址：https://tholman.com/github-corners/ -->
     <a href="https://github.com/heygsc/word-wind" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80"
@@ -85,7 +91,8 @@
             }
         }
     </style>
-    <script src="/main.js">
+    <script src="./main.js">
     </script>
 </body>
 </html>
+``` 
